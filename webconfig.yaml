@@ -7,6 +7,6 @@ data:
         <html>   
         <h1>Welcome to Kubernetes!</h1>
         </br>
-        </html
+        </html>
         <h1>This web page is hosted on a Pod running Nginx</h1>
         </html>
