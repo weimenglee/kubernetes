@@ -1,0 +1,39 @@
+Install Helm
+------------
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+chmod +x get_helm.sh
+./get_helm.sh
+
+Add Repositories
+----------------
+helm repo add bitnami https://charts.bitnami.com/bitnami 
+
+Search Repo
+-----------
+helm search repo bitnami/mysql 
+
+Install MySQL
+-------------
+kubectl config set-context --current --namespace=default
+helm install mysql bitnami/mysql 
+kubectl get pods -w --namespace default
+
+Save the password in the ENV
+----------------------------
+MYSQL_ROOT_PASSWORD=$(kubectl get secret --namespace default mysql -o jsonpath="{.data.mysql-root-password}" | base64 -d)
+echo $MYSQL_ROOT_PASSWORD
+
+Run another Pod to run the SQL client
+-------------------------------------
+kubectl run mysql-client --rm --tty -i --restart='Never' --image  docker.io/bitnami/mysql:8.0.37-debian-12-r0 --namespace default --env MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD --command -- bash
+
+Within the pod, run the following to connect to MySQL server:
+I have no name!@mysql-client:/$ mysql -h mysql.default.svc.cluster.local -uroot -p"$MYSQL_ROOT_PASSWORD"
+
+Show the list of Helms running
+------------------------------
+helm list
+
+Uninstall a Helm release
+------------------------
+helm uninstall mysql
