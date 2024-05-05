@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: my-job
+spec:
+  completions: 5  # Number of pod completions required
+  parallelism: 2  # Number of pods running in parallel
+  template:
+    spec:
+      containers:
+      - name: hello
+        image: busybox
+        command: ['sh', '-c', 'echo "Pod Name: $POD_NAME"']
+        env:
+	- name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+      restartPolicy: Never  # Pods are not restarted upon completion
