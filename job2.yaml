@@ -12,7 +12,7 @@ spec:
         image: busybox
         command: ['sh', '-c', 'echo "Pod Name: $POD_NAME"']
         env:
-	- name: POD_NAME
+        - name: POD_NAME
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
