@@ -14,7 +14,8 @@ spec:
     spec:
       containers:
       - name: mysql
-        image: mysql:latest
+        # image: mysql:latest
+        image: mysql:5.7.39-oracle
         env:
           - name: MYSQL_ROOT_PASSWORD
             value: topsecret
